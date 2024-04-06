@@ -22,6 +22,7 @@ const LeftSection = () => {
         // 로그인 실패 시 필요한 처리를 여기에 추가하세요
         console.error('로그인 실패');
       }
+      console.log(response);
     } catch (error) {
       console.error('로그인 요청 중 오류 발생:', error);
     }

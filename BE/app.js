@@ -5,6 +5,7 @@ const path = require('path');
 const session = require('express-session');
 const dotenv = require('dotenv');
 const cors = require('cors');
+const passport = require('passport');
 
 dotenv.config();
 const authRouter = require('./routes/auth');

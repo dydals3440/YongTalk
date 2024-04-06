@@ -18,4 +18,15 @@ router.get('/logout', isLoggedIn, logout);
 // GET /auth/kakao
 router.get('/kakao', passport.authenticate('kakao'));
 
+// GET /auth/kakao/callback
+router.get(
+  '/kakao/callback',
+  passport.authenticate('kakao', {
+    failureRedirect: `${process.env.LOCAL_SERVER}/?loginError=카카오로그인 실패`,
+  }),
+  (req, res) => {
+    res.redirect('/');
+  }
+);
+
 module.exports = router;

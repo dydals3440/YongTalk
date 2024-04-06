@@ -27,7 +27,28 @@ exports.join = async (req, res, next) => {
 };
 
 exports.login = async (req, res, next) => {
-  passport.authenticate('local', (authError, user, info) => {});
+  passport.authenticate('local', (authError, user, info) => {
+    if (authError) {
+      console.error(authError);
+      return next(authError);
+    }
+    if (!user) {
+      return res.redirect(
+        `${process.env.LOCAL_SERVER}/?loginError=${info.message}`
+      );
+    }
+    return req.login(user, (loginError) => {
+      if (loginError) {
+        console.error(loginError);
+        return next(loginError);
+      }
+      return res.redirect('/');
+    });
+  })(req, res, next);
 };
 
-exports.logout = async (req, res) => {};
+exports.logout = async (req, res) => {
+  req.logout(() => {
+    res.redirect('/');
+  });
+};
