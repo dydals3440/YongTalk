@@ -19,7 +19,11 @@ exports.join = async (req, res, next) => {
       nick,
       password: hash,
     });
-    return res.redirect('/');
+    return res.status(200).json({
+      id: response.id,
+      email: response.email,
+      nickname: response.nick,
+    });
   } catch (error) {
     console.error(error);
     next(error);
@@ -42,13 +46,16 @@ exports.login = async (req, res, next) => {
         console.error(loginError);
         return next(loginError);
       }
-      return res.redirect('/');
+      // 로그인 성공시
+      return res
+        .status(200)
+        .json({ id: user.id, email: user.email, nickname: user.nick });
     });
   })(req, res, next);
 };
 
 exports.logout = async (req, res) => {
   req.logout(() => {
-    res.redirect('/');
+    res.status(200).json('로그아웃 성공');
   });
 };
