@@ -9,8 +9,10 @@ const cors = require('cors');
 dotenv.config();
 const authRouter = require('./routes/auth');
 const { sequelize } = require('./models');
+const passportConfig = require('./passport');
 
 const app = express();
+passportConfig(); // 패스포트 설정
 app.set('port', process.env.PORT || 8001);
 sequelize
   .sync({ force: false })
@@ -38,6 +40,8 @@ app.use(
     },
   })
 );
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use('/auth', authRouter);
 
